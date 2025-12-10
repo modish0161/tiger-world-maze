@@ -81,14 +81,14 @@
 
 .powerup-timer-bar {
   height: 100%;
-  background: linear-gradient(90deg, #ffd700, #ff6b35);
+  background: linear-gradient(90deg, #FF6B35, #ff6b35);
   border-radius: var(--radius-full);
   transition: width 0.1s linear;
 }
 
 /* Perfect Run Badge */
 .perfect-run {
-  color: #ffd700;
+  color: #FF6B35;
   font-weight: bold;
   animation: glow-pulse 1s ease-in-out infinite;
 }
@@ -183,7 +183,7 @@
 }
 
 .tutorial-dot.active {
-  background: #ffd700;
+  background: #FF6B35;
   transform: scale(1.2);
 }
 
@@ -198,7 +198,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%);
-  border: 2px solid #ffd700;
+  border: 2px solid #FF6B35;
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-xl);
   display: flex;
@@ -215,7 +215,7 @@
 }
 
 .achievement-info h4 {
-  color: #ffd700;
+  color: #FF6B35;
   margin: 0 0 4px;
   font-size: 1.2rem;
 }
@@ -335,7 +335,7 @@
 }
 
 .daily-challenge-banner h4 {
-  color: #ffd700;
+  color: #FF6B35;
   margin: 0 0 var(--spacing-xs);
 }
 
@@ -345,7 +345,7 @@
 }
 
 .daily-challenge-banner .reward {
-  color: #ffd700;
+  color: #FF6B35;
   font-weight: bold;
 }
 

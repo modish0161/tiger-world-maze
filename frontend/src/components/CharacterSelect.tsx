@@ -23,7 +23,7 @@ const CharacterSelect = () => {
         <div className="current-character">
           <div className="character-preview">
             <span className="character-emoji">
-              {state.skins.find((s) => s.id === state.selectedSkin)?.emoji || '💩'}
+              {state.skins.find((s) => s.id === state.selectedSkin)?.emoji || '🐯'}
             </span>
             {state.skins.find((s) => s.id === state.selectedSkin)?.trailColor && (
               <div

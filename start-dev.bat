@@ -1,19 +1,19 @@
-:: Poo-Land Development - Start All Services
+:: Tiger World Development - Start All Services
 @echo off
 echo.
 echo ========================================
-echo   💩 Starting Poo-Land Development 💩
+echo   🐯 Starting Tiger World Development 🐯
 echo ========================================
 echo.
 
 :: Start Backend
 echo [1/2] Starting Flask Backend Server...
-start "Poo-Land Backend" cmd /k "cd backend && .\venv\Scripts\activate && python run.py"
+start "Tiger World Backend" cmd /k "cd backend && .\venv\Scripts\activate && python run.py"
 timeout /t 3 /nobreak > nul
 
 :: Start Frontend
 echo [2/2] Starting React Frontend Server...
-start "Poo-Land Frontend" cmd /k "cd frontend && npm run dev"
+start "Tiger World Frontend" cmd /k "cd frontend && npm run dev"
 
 echo.
 echo ========================================

@@ -1,11 +1,11 @@
 /**
- * Poo-Land Maze Marketing Capture Script
+ * Tiger World Maze Marketing Capture Script
  * Automated screenshot and video capture using Playwright
  */
 
+import { existsSync, mkdirSync } from 'fs';
+import { dirname, join } from 'path';
 import { chromium } from 'playwright';
-import { mkdirSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -47,7 +47,7 @@ async function waitForAnimations(page, extraDelay = 500) {
 // Take screenshot with proper naming
 async function takeScreenshot(page, outputDir, screenName, viewportName, isMobile = false) {
   const prefix = isMobile ? 'mobile' : 'desktop';
-  const filename = `poo-land-maze_${prefix}_${screenName}_${viewportName}.png`;
+  const filename = `tiger-world-maze_${prefix}_${screenName}_${viewportName}.png`;
   const filepath = join(outputDir, filename);
   
   await page.screenshot({ 
@@ -322,7 +322,7 @@ async function captureVideos(browser) {
 
 // Main execution
 async function main() {
-  console.log('🎮 Poo-Land Maze Marketing Capture Tool');
+  console.log('🐯 Tiger World Maze Marketing Capture Tool');
   console.log('========================================\n');
   
   // Ensure base directories

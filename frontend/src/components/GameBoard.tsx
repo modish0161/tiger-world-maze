@@ -6,7 +6,8 @@ import scoreService from '../services/scoreService';
 import type { Enemy, GameState } from '../types/game';
 import './GameBoard.css';
 
-const POO_EMOJI = '💩';
+const TIGER_EMOJI = '🐯';
+const TRAIL_EMOJI = '🐾';
 const SPEED = 3;
 
 interface PlayerState {
@@ -519,11 +520,11 @@ const GameBoard = () => {
 
           // Check if food here
           const cell = mazeGridRef.current[targetCellY][targetCellX];
-          if (cell !== '#' && cell !== ' ') {
-            mazeGridRef.current[targetCellY][targetCellX] = ' ';
+          if (cell !== '#' && cell !== ' ' && cell !== TRAIL_EMOJI) {
+            mazeGridRef.current[targetCellY][targetCellX] = TRAIL_EMOJI;
             setFoodsCollected(prev => prev + 1);
             audioService.playEat();
-            createParticles(targetX, targetY, '#FFD700', 10);
+            createParticles(targetX, targetY, '#FF6B35', 10);
           }
 
 
@@ -563,7 +564,7 @@ const GameBoard = () => {
       ctx.font = `${cellSize}px "Segoe UI Emoji"`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(POO_EMOJI, playerState.x, playerState.y);
+      ctx.fillText(TIGER_EMOJI, playerState.x, playerState.y);
       ctx.shadowBlur = 0;
       ctx.shadowOffsetY = 0;
       ctx.globalAlpha = 1;
@@ -597,18 +598,18 @@ const GameBoard = () => {
           // 3D Wall Effect
           
           // 1. Base/Side (Darker)
-          ctx.fillStyle = '#2d1810'; // Dark brown
+          ctx.fillStyle = '#0a0a0a'; // Dark black
           ctx.fillRect(cellX, cellY + 5, cellSize, cellSize);
           
           // 2. Top Face (Lighter)
           const gradient = ctx.createLinearGradient(cellX, cellY, cellX, cellY + cellSize);
-          gradient.addColorStop(0, '#5d3a24'); // Light top
-          gradient.addColorStop(1, '#4a2c1a'); // Darker bottom
+          gradient.addColorStop(0, '#2a2a2a'); // Light top
+          gradient.addColorStop(1, '#1a1a1a'); // Darker bottom
           ctx.fillStyle = gradient;
           ctx.fillRect(cellX, cellY, cellSize, cellSize - 5);
           
           // 3. Highlight edge
-          ctx.fillStyle = '#7a4e32';
+          ctx.fillStyle = '#3a3a3a';
           ctx.fillRect(cellX, cellY, cellSize, 2);
           
         } else {
@@ -619,16 +620,26 @@ const GameBoard = () => {
           }
           
           if (cell !== ' ') {
-            // Food emoji with floating effect
-            const floatOffset = Math.sin(Date.now() / 200) * 3;
-            
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.4)';
-            ctx.shadowBlur = 15;
-            ctx.font = `${cellSize * 0.6}px "Segoe UI Emoji"`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(cell, cellX + cellSize / 2, cellY + cellSize / 2 + floatOffset);
-            ctx.shadowBlur = 0;
+            if (cell === TRAIL_EMOJI) {
+              // Trail emoji - subtle paw print
+              ctx.globalAlpha = 0.4;
+              ctx.font = `${cellSize * 0.5}px "Segoe UI Emoji"`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(cell, cellX + cellSize / 2, cellY + cellSize / 2);
+              ctx.globalAlpha = 1;
+            } else {
+              // Food emoji with floating effect
+              const floatOffset = Math.sin(Date.now() / 200) * 3;
+              
+              ctx.shadowColor = 'rgba(255, 107, 53, 0.4)';
+              ctx.shadowBlur = 15;
+              ctx.font = `${cellSize * 0.6}px "Segoe UI Emoji"`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(cell, cellX + cellSize / 2, cellY + cellSize / 2 + floatOffset);
+              ctx.shadowBlur = 0;
+            }
           }
         }
 

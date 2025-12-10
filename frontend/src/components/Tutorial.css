@@ -29,7 +29,7 @@
 }
 
 .tutorial-dot.active {
-  background: #ffd700;
+  background: #FF6B35;
   transform: scale(1.3);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }

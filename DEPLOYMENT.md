@@ -1,4 +1,4 @@
-# Poo-Land - Deployment Guide
+# Tiger World - Deployment Guide
 
 ## 🌐 Web Hosting Deployment
 
@@ -7,7 +7,7 @@
 #### Frontend on Vercel (Free):
 1. Push code to GitHub
 2. Go to https://vercel.com
-3. Import the `Poo-Land-App/frontend` folder
+3. Import the `Tiger-World-App/frontend` folder
 4. Set build command: `npm run build`
 5. Set output directory: `dist`
 6. Add environment variable: `VITE_API_URL=https://your-backend-url.com/api`
@@ -46,7 +46,7 @@ Once deployed, users can install as PWA:
 - ✅ App icons (need to generate)
 
 ### Generate App Icons:
-1. Create a 512x512 poo emoji icon
+1. Create a 512x512 tiger emoji icon
 2. Use https://realfavicongenerator.net
 3. Upload to `frontend/public/`
 
@@ -161,4 +161,4 @@ Recommended services:
 
 ---
 
-**Ready to share Poo-Land with the world! 🌍💩**
+**Ready to share Tiger World with the world! 🌍🐯**

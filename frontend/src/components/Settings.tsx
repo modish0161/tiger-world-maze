@@ -32,7 +32,7 @@ const Settings = () => {
 
   const handleResetProgress = () => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
-      localStorage.removeItem('poo-land-game-store');
+      localStorage.removeItem('tiger-world-game-store');
       window.location.reload();
     }
   };

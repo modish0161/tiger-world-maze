@@ -1,4 +1,4 @@
-// API client for Poo-Land backend
+// API client for Tiger World backend
 import axios from 'axios';
 import type {
     CompleteGameRequest,

@@ -140,7 +140,7 @@
 }
 
 .new-high-score {
-  background: linear-gradient(45deg, #ffd700, #ffa500);
+  background: linear-gradient(45deg, #FF6B35, #ffa500);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

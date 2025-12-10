@@ -1,5 +1,5 @@
-// Poo-Land Service Worker - Enables offline support and PWA functionality
-const CACHE_NAME = 'poo-land-v1';
+// Tiger World Service Worker - Enables offline support and PWA functionality
+const CACHE_NAME = 'tiger-world-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

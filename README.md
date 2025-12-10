@@ -1,4 +1,4 @@
-# 💩 Poo-Land - Maze Adventure Game
+# 🐯 Tiger World - Maze Adventure Game
 
 A fun and addictive maze puzzle game where you navigate through dynamic mazes, collect delicious snacks, and master increasingly challenging levels!
 
@@ -78,8 +78,8 @@ Frontend will run at `http://localhost:5173`
 
 1. Click **PLAY NOW** from the home screen
 2. Select your desired level
-3. Click anywhere on the maze to move your poo emoji character
-4. Collect all the food emojis (🌮, 🍕, 🍔, 🍩, etc.)
+3. Click anywhere on the maze to move your tiger emoji character
+4. Collect all the food emojis (🍗, 🍖, 🍔, 🥩, etc.)
 5. Reach the golden square to complete the level
 6. Beat your time and climb the leaderboard!
 
@@ -93,7 +93,7 @@ Frontend will run at `http://localhost:5173`
 ## 🏗️ Project Structure
 
 ```
-Poo-Land-App/
+Tiger-World-App/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
@@ -172,4 +172,4 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ---
 
-**Made with 💩 and ❤️**
+**Made with 🐯 and ❤️**

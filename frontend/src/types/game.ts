@@ -1,4 +1,4 @@
-// Type definitions for Poo-Land game
+// Type definitions for Tiger World game
 
 export interface Position {
   x: number;

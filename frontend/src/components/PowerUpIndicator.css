@@ -84,7 +84,7 @@
 
 /* Color variants */
 .power-up-timer-fill.color-speed {
-  background: linear-gradient(90deg, #ffd700, #ffa500);
+  background: linear-gradient(90deg, #FF6B35, #ffa500);
 }
 
 .power-up-timer-fill.color-invincible {

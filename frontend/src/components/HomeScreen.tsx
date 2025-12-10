@@ -72,9 +72,9 @@ const HomeScreen = () => {
         {/* Logo */}
         <div className="logo-container">
           <div className="logo-wrapper">
-            <img src="/icon-512.png" alt="Poo-Land Logo" className="game-logo pulse" />
+            <img src="/icon-512.png" alt="Tiger World Logo" className="game-logo pulse" />
           </div>
-          <h1 className="game-title">POO-LAND</h1>
+          <h1 className="game-title">TIGER WORLD</h1>
           <p className="game-subtitle">Navigate the Maze, Collect the Snacks!</p>
         </div>
 
@@ -165,10 +165,10 @@ const HomeScreen = () => {
 
       {/* Animated background particles */}
       <div className="bg-particles">
-        {/* Floating poo emojis */}
+        {/* Floating tiger emojis */}
         {Array.from({ length: 30 }).map((_, i) => (
           <div
-            key={`poo-${i}`}
+            key={`tiger-${i}`}
             className="particle emoji"
             style={{
               left: `${Math.random() * 100}%`,
@@ -177,7 +177,7 @@ const HomeScreen = () => {
               fontSize: `${1 + Math.random() * 1.5}rem`,
             }}
           >
-            💩
+            🐯
           </div>
         ))}
         {/* Food emojis */}

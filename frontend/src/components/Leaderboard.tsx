@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import scoreService, { Score } from '../services/scoreService';
 import audioService from '../services/EnhancedAudioService';
+import scoreService, { Score } from '../services/scoreService';
 import './Leaderboard.css';
 
 type LeaderboardTab = 'global' | 'friends' | 'weekly';
@@ -48,7 +48,7 @@ const Leaderboard = () => {
     <div className="leaderboard-screen">
       <div className="leaderboard-container card">
         <div className="leaderboard-header">
-          <h1>🏆 Hall of Fame 🏆</h1>
+          <h1><span className="emoji">🏆</span> Hall of Fame <span className="emoji">🏆</span></h1>
           <button 
             className="btn btn-secondary back-btn" 
             onClick={() => navigate('/')}
@@ -113,7 +113,7 @@ const Leaderboard = () => {
                 <div key={score.id} className={`score-row ${index < 3 ? 'top-rank rank-' + (index + 1) : ''}`}>
                   <span className="rank">{getRankEmoji(index)}</span>
                   <span className="player-name">
-                    <span className="player-avatar">💩</span>
+                    <span className="player-avatar">🐯</span>
                     {score.player_name}
                   </span>
                   <span className="level">Lvl {score.level}</span>

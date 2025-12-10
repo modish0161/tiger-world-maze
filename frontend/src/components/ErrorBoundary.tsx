@@ -20,7 +20,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Poo-Land Error:', error, errorInfo);
+    console.error('Tiger World Error:', error, errorInfo);
   }
 
   handleReload = () => {
@@ -45,7 +45,7 @@ class ErrorBoundary extends Component<Props, State> {
             marginBottom: '1rem',
             animation: 'pulse 2s ease-in-out infinite'
           }}>
-            💩
+            🐯
           </div>
           <h1 style={{
             fontFamily: '"Fredoka One", cursive',
@@ -62,7 +62,7 @@ class ErrorBoundary extends Component<Props, State> {
             marginBottom: '2rem',
             maxWidth: '400px'
           }}>
-            Don't worry, even the best poo explorers hit a wall sometimes!
+            Don't worry, even the best tiger explorers hit a wall sometimes!
           </p>
           <button
             onClick={this.handleReload}

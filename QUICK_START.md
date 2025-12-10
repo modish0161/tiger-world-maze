@@ -1,4 +1,4 @@
-# Poo-Land Quick Start Guide
+# Tiger World Quick Start Guide
 
 ## 🚀 First Time Setup
 
@@ -78,7 +78,7 @@ gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app()"
 
 ## 🎯 Game Controls
 
-- **Click/Tap**: Move your poo emoji character
+- **Click/Tap**: Move your tiger emoji character
 - **Goal**: Collect all food emojis and reach the golden square
 
 ## 📂 Important Files
@@ -127,4 +127,4 @@ Edit `frontend/src/index.css` - modify CSS variables in `:root`
 
 ---
 
-**Have fun building Poo-Land! 💩🎮**
+**Have fun building Tiger World! 🐯🎮**

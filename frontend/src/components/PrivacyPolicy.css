@@ -1,7 +1,7 @@
 .legal-page {
   min-height: 100vh;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #1a0a0f 0%, #2d1810 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
 }
 
 .legal-content {
@@ -17,7 +17,7 @@
 .legal-content .back-button {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.3);
-  color: #FFD700;
+  color: #FF6B35;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -34,7 +34,7 @@
 
 .legal-content h1 {
   font-family: 'Fredoka One', cursive;
-  color: #FFD700;
+  color: #FF6B35;
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
@@ -52,7 +52,7 @@
 
 .legal-content h2 {
   font-family: 'Fredoka One', cursive;
-  color: #FFD700;
+  color: #FF6B35;
   font-size: 1.5rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 215, 0, 0.2);
@@ -89,7 +89,7 @@
 }
 
 .legal-content a {
-  color: #FFD700;
+  color: #FF6B35;
   text-decoration: none;
   transition: all 0.3s ease;
 }

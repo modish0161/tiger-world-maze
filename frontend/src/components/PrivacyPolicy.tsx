@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
         <section>
           <h2>Introduction</h2>
           <p>
-            Welcome to Poo-Land Maze ("Game"), developed and operated by Indigo Pascal Ltd 
+            Welcome to Tiger World Maze ("Game"), developed and operated by Indigo Pascal Ltd 
             ("we", "us", or "our"). This Privacy Policy explains how we collect, use, and 
             protect your information when you use our Game.
           </p>
@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
         <section>
           <h2>Children's Privacy</h2>
           <p>
-            Poo-Land Maze is designed to be family-friendly. We do not knowingly collect 
+            Tiger World Maze is designed to be family-friendly. We do not knowingly collect 
             personal information from children under 13. The only information collected 
             is optional display names for leaderboards.
           </p>

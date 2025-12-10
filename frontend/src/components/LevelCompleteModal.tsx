@@ -98,11 +98,11 @@ const LevelCompleteModal: React.FC<LevelCompleteModalProps> = ({
             <div className="trophy-sparkles">✨✨✨</div>
           </div>
 
-          <h1 className="game-complete-title">🎉 CONGRATULATIONS, POO-HEAD! 🎉</h1>
+          <h1 className="game-complete-title">🎉 CONGRATULATIONS, TIGER! 🎉</h1>
           <h2 className="game-complete-subtitle">You've Completed All Levels!</h2>
 
           <div className="game-complete-message">
-            <p>💩 You are the ULTIMATE Poo-Head Champion! 💩</p>
+            <p>🐯 You are the ULTIMATE Tiger Champion! 🐯</p>
             <p>All {totalLevels} levels conquered! You absolute legend! 💪</p>
           </div>
 
@@ -169,7 +169,7 @@ const LevelCompleteModal: React.FC<LevelCompleteModalProps> = ({
           <span className="emoji-bounce">🎉</span>
         </h1>
 
-        <p className="poo-head-message">Well done, Poo-Head! 💩</p>
+        <p className="tiger-message">Well done, Tiger! 🐯</p>
 
         {/* Stars */}
         <div className="stars-container">
@@ -211,7 +211,7 @@ const LevelCompleteModal: React.FC<LevelCompleteModalProps> = ({
         <div className="complete-actions">
           {hasNextLevel ? (
             <button className="btn btn-primary next-level-btn" onClick={onNextLevel}>
-              Let's Go, Poo-Head! ➡️
+              Let's Go, Tiger! ➡️
               <span className="next-level-preview">Level {level + 1}</span>
             </button>
           ) : (

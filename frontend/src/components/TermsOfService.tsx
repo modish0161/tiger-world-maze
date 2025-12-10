@@ -17,7 +17,7 @@ const TermsOfService = () => {
         <section>
           <h2>1. Acceptance of Terms</h2>
           <p>
-            By accessing and playing Poo-Land Maze ("Game"), you agree to be bound by these 
+            By accessing and playing Tiger World Maze ("Game"), you agree to be bound by these 
             Terms of Service ("Terms"). If you do not agree to these Terms, please do not 
             use the Game. The Game is operated by Indigo Pascal Ltd ("we", "us", or "our").
           </p>
@@ -26,7 +26,7 @@ const TermsOfService = () => {
         <section>
           <h2>2. Game Description</h2>
           <p>
-            Poo-Land Maze is a free-to-play puzzle game where players navigate mazes, 
+            Tiger World Maze is a free-to-play puzzle game where players navigate mazes, 
             collect items, and compete on leaderboards. The Game is provided as-is for 
             entertainment purposes.
           </p>

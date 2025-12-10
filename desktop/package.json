@@ -1,22 +1,22 @@
 {
-  "name": "poo-land-desktop",
+  "name": "tiger-world-desktop",
   "version": "1.0.0",
-  "description": "Poo-Land Desktop Application",
+  "description": "Tiger World Desktop Application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "author": "Poo-Land Team",
+  "author": "Indigo Pascal Ltd",
   "license": "MIT",
   "devDependencies": {
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1"
   },
   "build": {
-    "appId": "com.pooland.app",
-    "productName": "Poo-Land",
+    "appId": "com.tigerworld.app",
+    "productName": "Tiger World",
     "win": {
       "target": "nsis",
       "icon": "../frontend/public/icon-512.png"

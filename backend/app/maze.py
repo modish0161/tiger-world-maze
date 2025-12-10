@@ -1,13 +1,13 @@
-"""Maze generation and pathfinding algorithms - ported from original Poo game"""
+"""Maze generation and pathfinding algorithms for Tiger World game"""
 import random
 from collections import deque
 from typing import List, Tuple, Set, Optional
 
-# Food emojis available in the game
+# Tiger-themed food emojis - meaty foods for the tiger!
 FOOD_EMOJIS = [
-    '🌮', '🍕', '🍔', '🍩', '🥨',
-    '🍟', '🍰', '🍫', '🍿', '🌯',
-    '🥗', '🍣', '🍙', '🍦', '🍭'
+    '🍗', '🍖', '🍔', '🍟', '🍕',
+    '🌭', '🍣', '🍤', '🍲', '🍜',
+    '🥩', '🍱', '🧀', '🥓'
 ]
 
 def generate_random_maze(rows: int, cols: int) -> List[List[str]]:
@@ -15,6 +15,7 @@ def generate_random_maze(rows: int, cols: int) -> List[List[str]]:
     Generate a random maze using recursive DFS.
     Returns a 2D list of '#' (walls) or '.' (paths).
     Post-processes to add loops and alternative paths for better gameplay.
+    GUARANTEES a valid path from start (0,0) to goal (rows-1, cols-1).
     """
     maze = [['#' for _ in range(cols)] for _ in range(rows)]
     directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -34,6 +35,77 @@ def generate_random_maze(rows: int, cols: int) -> List[List[str]]:
     
     # Start carving from top-left corner
     carve(0, 0)
+    
+    # Ensure start and goal positions are open
+    start_x, start_y = 0, 0
+    goal_x, goal_y = cols - 1, rows - 1
+    maze[start_y][start_x] = '.'
+    maze[goal_y][goal_x] = '.'
+    
+    # CRITICAL: Ensure there's a valid path from start to goal
+    # Use BFS to check if goal is reachable
+    def is_path_exists() -> bool:
+        visited = set()
+        queue = deque([(start_x, start_y)])
+        visited.add((start_x, start_y))
+        
+        while queue:
+            cx, cy = queue.popleft()
+            if (cx, cy) == (goal_x, goal_y):
+                return True
+            
+            for dx, dy in directions:
+                nx, ny = cx + dx, cy + dy
+                if in_bounds(nx, ny) and maze[ny][nx] == '.' and (nx, ny) not in visited:
+                    visited.add((nx, ny))
+                    queue.append((nx, ny))
+        
+        return False
+    
+    # If no path exists, carve one from goal backwards to start
+    def carve_path_to_goal():
+        """Carve a guaranteed path from start to goal using BFS pathfinding."""
+        # Find the nearest reachable cell from goal and carve towards it
+        visited = set()
+        parent = {}
+        queue = deque([(start_x, start_y)])
+        visited.add((start_x, start_y))
+        
+        # First, find all cells reachable from start
+        reachable_from_start = set()
+        while queue:
+            cx, cy = queue.popleft()
+            reachable_from_start.add((cx, cy))
+            
+            for dx, dy in directions:
+                nx, ny = cx + dx, cy + dy
+                if in_bounds(nx, ny) and maze[ny][nx] == '.' and (nx, ny) not in visited:
+                    visited.add((nx, ny))
+                    queue.append((nx, ny))
+        
+        # Now BFS from goal through walls to find nearest reachable cell
+        visited = set()
+        queue = deque([(goal_x, goal_y, [(goal_x, goal_y)])])
+        visited.add((goal_x, goal_y))
+        
+        while queue:
+            cx, cy, path = queue.popleft()
+            
+            # If we found a cell reachable from start, carve the path
+            if (cx, cy) in reachable_from_start:
+                for (px, py) in path:
+                    maze[py][px] = '.'
+                return
+            
+            for dx, dy in directions:
+                nx, ny = cx + dx, cy + dy
+                if in_bounds(nx, ny) and (nx, ny) not in visited:
+                    visited.add((nx, ny))
+                    queue.append((nx, ny, path + [(nx, ny)]))
+    
+    # Check and fix path if needed
+    if not is_path_exists():
+        carve_path_to_goal()
     
     # IMPORTANT: Remove random walls to create loops and alternative paths
     # This allows players to escape from ghosts more easily

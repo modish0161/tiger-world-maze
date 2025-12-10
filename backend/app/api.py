@@ -1,4 +1,4 @@
-"""REST API endpoints for Poo-Land game"""
+"""REST API endpoints for Tiger World game"""
 from flask import Blueprint, jsonify, request
 from app.game import (
     create_new_game,
@@ -15,7 +15,7 @@ bp = Blueprint('api', __name__)
 @bp.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint."""
-    return jsonify({'status': 'healthy', 'service': 'Poo-Land API'})
+    return jsonify({'status': 'healthy', 'service': 'Tiger World API'})
 
 
 @bp.route('/game/new', methods=['POST'])

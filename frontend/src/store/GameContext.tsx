@@ -175,26 +175,26 @@ const INITIAL_ACHIEVEMENTS: Achievement[] = [
 ];
 
 const INITIAL_SKINS: PlayerSkin[] = [
-  { id: 'default', name: 'Classic Poo', emoji: '💩', unlocked: true, unlockCondition: 'Default' },
+  { id: 'default', name: 'Classic Tiger', emoji: '🐯', unlocked: true, unlockCondition: 'Default' },
   {
     id: 'golden',
-    name: 'Golden Poo',
-    emoji: '💩',
+    name: 'Golden Tiger',
+    emoji: '🐯',
     unlocked: false,
     unlockCondition: 'Collect 500 coins',
     trailColor: '#FFD700',
   },
   {
     id: 'rainbow',
-    name: 'Rainbow Poo',
-    emoji: '💩',
+    name: 'Rainbow Tiger',
+    emoji: '🐯',
     unlocked: false,
     unlockCondition: 'Complete 10 perfect runs',
     trailColor: 'rainbow',
   },
   {
-    id: 'ghost_poo',
-    name: 'Ghost Poo',
+    id: 'ghost_tiger',
+    name: 'Ghost Tiger',
     emoji: '👻',
     unlocked: false,
     unlockCondition: 'Defeat 50 ghosts',
@@ -222,7 +222,7 @@ const INITIAL_SKINS: PlayerSkin[] = [
   },
   {
     id: 'crown',
-    name: 'King Poo',
+    name: 'King Tiger',
     emoji: '👑',
     unlocked: false,
     unlockCondition: 'Reach #1 on leaderboard',
@@ -528,10 +528,11 @@ interface GameContextType {
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'poo-land-game-store';
+const STORAGE_KEY = 'tiger-world-game-store';
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_STATE);
+  const isFirstRender = React.useRef(true);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -563,8 +564,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Save to localStorage on state change
+  // Save to localStorage on state change (skip first render to avoid overwriting before load)
   useEffect(() => {
+    // Skip the first render - this prevents saving INITIAL_STATE before LOAD_STATE takes effect
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
@@ -640,7 +646,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const getSelectedSkinEmoji = (): string => {
     const skin = state.skins.find((s) => s.id === state.selectedSkin);
-    return skin?.emoji || '💩';
+    return skin?.emoji || '🐯';
   };
 
   const getSelectedSkinTrail = (): string | undefined => {
