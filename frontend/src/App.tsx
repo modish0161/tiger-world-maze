@@ -1,6 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Achievements from './components/Achievements';
-import CharacterSelect from './components/CharacterSelect';
 import EnhancedGameBoard from './components/EnhancedGameBoard';
 import ErrorBoundary from './components/ErrorBoundary';
 import HomeScreen from './components/HomeScreen';
@@ -25,7 +24,6 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/achievements" element={<Achievements />} />
-            <Route path="/character" element={<CharacterSelect />} />
             <Route path="/tutorial" element={<Tutorial />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />

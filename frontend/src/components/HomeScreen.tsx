@@ -93,9 +93,6 @@ const HomeScreen = () => {
           <button className="quick-menu-btn" onClick={() => navigate('/achievements')}>
             🏆 Achievements
           </button>
-          <button className="quick-menu-btn" onClick={() => navigate('/character')}>
-            🎨 Characters
-          </button>
           <button className="quick-menu-btn" onClick={() => navigate('/settings')}>
             ⚙️ Settings
           </button>
