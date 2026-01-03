@@ -310,7 +310,7 @@ const GameBoard = () => {
     }
   }, [currentTime, activePowerUps]);
 
-  // BFS Pathfinding
+  // BFS Pathfinding - Optimized for larger mazes
   const findPath = useCallback(
     (
       start: [number, number],
@@ -319,41 +319,58 @@ const GameBoard = () => {
       rows: number,
       cols: number,
     ): [number, number][] | null => {
-      const queue: { pos: [number, number]; path: [number, number][] }[] = [];
-      queue.push({ pos: start, path: [start] });
-      const visited = new Set<string>();
-      visited.add(`${start[0]},${start[1]}`);
-      const directions = [
-        [0, 1],
-        [0, -1],
-        [1, 0],
-        [-1, 0],
-      ];
+      // Quick checks
+      if (start[0] === end[0] && start[1] === end[1]) return [start];
+      if (grid[end[1]]?.[end[0]] === '#') return null;
 
+      // Use 2D array for visited + parent tracking (faster than Map/Set with strings)
+      const visited: boolean[][] = Array.from({ length: rows }, () => 
+        Array(cols).fill(false)
+      );
+      const parent: ([number, number] | null)[][] = Array.from({ length: rows }, () =>
+        Array(cols).fill(null)
+      );
+      
+      visited[start[1]][start[0]] = true;
+      
+      // Simple queue using array (dequeue from front, enqueue to back)
+      const queue: [number, number][] = [start];
+      let head = 0;
+      
+      const directions: [number, number][] = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+
+      // Limit iterations for performance on large mazes
+      const maxIterations = Math.min(rows * cols, 800);
       let iterations = 0;
-      const MAX_ITERATIONS = 2000;
 
-      while (queue.length > 0 && iterations < MAX_ITERATIONS) {
+      while (head < queue.length && iterations < maxIterations) {
         iterations++;
-        const { pos, path } = queue.shift()!;
-        const [cx, cy] = pos;
+        const [cx, cy] = queue[head++];
 
-        if (cx === end[0] && cy === end[1]) return path;
+        if (cx === end[0] && cy === end[1]) {
+          // Reconstruct path
+          const path: [number, number][] = [];
+          let current: [number, number] | null = [cx, cy];
+          while (current) {
+            path.unshift(current);
+            current = parent[current[1]][current[0]];
+          }
+          return path;
+        }
 
         for (const [dx, dy] of directions) {
           const nx = cx + dx;
           const ny = cy + dy;
 
           if (
-            nx >= 0 &&
-            nx < cols &&
-            ny >= 0 &&
-            ny < rows &&
-            grid[ny][nx] !== '#' &&
-            !visited.has(`${nx},${ny}`)
+            nx >= 0 && nx < cols &&
+            ny >= 0 && ny < rows &&
+            !visited[ny][nx] &&
+            grid[ny][nx] !== '#'
           ) {
-            visited.add(`${nx},${ny}`);
-            queue.push({ pos: [nx, ny], path: [...path, [nx, ny]] });
+            visited[ny][nx] = true;
+            parent[ny][nx] = [cx, cy];
+            queue.push([nx, ny]);
           }
         }
       }
