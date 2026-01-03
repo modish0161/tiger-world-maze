@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.vercel.tiger_world_maze.twa",
+        "sha256_cert_fingerprints": ["D0:7B:A6:50:A0:4E:26:DD:59:B3:5F:8D:B1:42:AE:95:23:1B:33:27:ED:6D:74:F8:0D:FD:5A:B0:98:75:FB:A9"]
+      }
+    }]
