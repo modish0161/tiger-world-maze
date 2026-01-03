@@ -8,7 +8,7 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "fullscreen", "standalone", "minimal-ui"],
+  "display_override": ["tabbed", "window-controls-overlay", "fullscreen", "standalone", "minimal-ui"],
   "background_color": "#1a0a0f",
   "theme_color": "#FFD700",
   "orientation": "any",
@@ -28,7 +28,8 @@
   ],
   
   "scope_extensions": [
-    { "origin": "https://tiger-world-api.onrender.com" }
+    { "origin": "https://tiger-world-api.onrender.com" },
+    { "origin": "https://*.vercel.app" }
   ],
   
   "file_handlers": [
@@ -52,13 +53,15 @@
   "widgets": [
     {
       "name": "Tiger World Stats",
+      "short_name": "Stats",
       "description": "View your Tiger World game stats and high scores",
       "tag": "tiger-stats",
-      "ms_ac_template": "widgets/stats.json",
-      "data": "/api/widget-stats",
+      "ms_ac_template": "https://tiger-world-maze.vercel.app/widgets/stats.json",
+      "data": "https://tiger-world-api.onrender.com/api/leaderboard",
       "type": "application/json",
       "screenshots": [{ "src": "/screenshot-wide.png", "sizes": "1280x720" }],
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }],
+      "backgrounds": [{ "src": "/icon-512.png" }]
     }
   ],
   
