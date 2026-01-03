@@ -621,78 +621,90 @@ const GameBoard = () => {
     }
   }, [playerState, enemies, cellSize, activePowerUps, handlePlayerHit]);
 
-  // Update ghost AI
+  // Update ghost AI - OPTIMIZED for larger levels
   const updateGhosts = useCallback(() => {
     if (!playerState || !gameState) return;
 
     const now = Date.now();
-
-    // Unfreeze ghosts
-    setEnemies((prev) =>
-      prev.map((e) => ({
-        ...e,
-        frozen: e.frozen && e.frozenUntil > now,
-      })),
-    );
-
-    // Update pathfinding every 500ms
-    if (now - lastEnemyUpdateRef.current > 500) {
+    const levelNum = parseInt(level || '1');
+    
+    // Increase update interval for larger levels (800ms for level 8+, 1000ms for level 15+)
+    const updateInterval = levelNum >= 15 ? 1000 : levelNum >= 8 ? 800 : 500;
+    const shouldUpdatePaths = now - lastEnemyUpdateRef.current > updateInterval;
+    
+    if (shouldUpdatePaths) {
       lastEnemyUpdateRef.current = now;
+    }
 
-      const playerCellX = Math.floor(playerState.x / cellSize);
-      const playerCellY = Math.floor(playerState.y / cellSize);
+    const playerCellX = Math.floor(playerState.x / cellSize);
+    const playerCellY = Math.floor(playerState.y / cellSize);
 
-      setEnemies((prevEnemies) =>
-        prevEnemies.map((enemy) => {
-          if (enemy.frozen) return enemy;
+    // Single setEnemies call for all updates
+    setEnemies((prevEnemies) => {
+      // Limit BFS calls per update - only process first 2 ghosts that need new paths
+      let bfsCallsThisFrame = 0;
+      const MAX_BFS_PER_FRAME = 2;
 
+      return prevEnemies.map((enemy) => {
+        // Handle frozen state
+        const isFrozen = enemy.frozen && enemy.frozenUntil > now;
+        if (isFrozen) {
+          return { ...enemy, frozen: true };
+        }
+        
+        // Unfreeze if needed  
+        const wasFrozen = enemy.frozen && enemy.frozenUntil <= now;
+        
+        let newPath = enemy.path;
+        let newTargetIndex = enemy.targetIndex;
+        let newX = enemy.x;
+        let newY = enemy.y;
+
+        // Only update paths on interval and if we haven't hit BFS limit
+        if (shouldUpdatePaths && bfsCallsThisFrame < MAX_BFS_PER_FRAME) {
           const enemyCellX = Math.floor(enemy.x / cellSize);
           const enemyCellY = Math.floor(enemy.y / cellSize);
           const config = GHOST_CONFIGS[enemy.ghostType];
-
           const dist = Math.abs(enemyCellX - playerCellX) + Math.abs(enemyCellY - playerCellY);
 
-          let newPath = enemy.path;
-          let newTargetIndex = enemy.targetIndex;
+          // Only run BFS if ghost is close enough to care about pathfinding
+          const needsPathUpdate = dist < config.aggroRange || 
+            enemy.path.length === 0 || 
+            enemy.targetIndex >= enemy.path.length;
 
-          // Different AI based on ghost type
-          if (enemy.ghostType === 'chaser' && dist < config.aggroRange) {
-            // Always chase
-            const path = findPath(
-              [enemyCellX, enemyCellY],
-              [playerCellX, playerCellY],
-              mazeGridRef.current,
-              gameState.rows,
-              gameState.cols,
-            );
-            if (path && path.length > 1) {
-              newPath = path.slice(1);
-              newTargetIndex = 0;
-            }
-          } else if (enemy.ghostType === 'smart' && dist < config.aggroRange) {
-            // Predict player movement
-            const predictX =
-              playerCellX +
-              (playerState.path[0]?.[0] ? playerState.path[0][0] - playerCellX : 0) * 2;
-            const predictY =
-              playerCellY +
-              (playerState.path[0]?.[1] ? playerState.path[0][1] - playerCellY : 0) * 2;
-            const targetX = Math.max(0, Math.min(gameState.cols - 1, predictX));
-            const targetY = Math.max(0, Math.min(gameState.rows - 1, predictY));
-            const path = findPath(
-              [enemyCellX, enemyCellY],
-              [targetX, targetY],
-              mazeGridRef.current,
-              gameState.rows,
-              gameState.cols,
-            );
-            if (path && path.length > 1) {
-              newPath = path.slice(1);
-              newTargetIndex = 0;
-            }
-          } else if (enemy.ghostType === 'patrol') {
-            // Patrol or chase if close
-            if (dist < config.aggroRange) {
+          if (needsPathUpdate) {
+            if (enemy.ghostType === 'chaser' && dist < config.aggroRange) {
+              bfsCallsThisFrame++;
+              const path = findPath(
+                [enemyCellX, enemyCellY],
+                [playerCellX, playerCellY],
+                mazeGridRef.current,
+                gameState.rows,
+                gameState.cols,
+              );
+              if (path && path.length > 1) {
+                newPath = path.slice(1);
+                newTargetIndex = 0;
+              }
+            } else if (enemy.ghostType === 'smart' && dist < config.aggroRange) {
+              bfsCallsThisFrame++;
+              const predictX = playerCellX + (playerState.path[0]?.[0] ? playerState.path[0][0] - playerCellX : 0) * 2;
+              const predictY = playerCellY + (playerState.path[0]?.[1] ? playerState.path[0][1] - playerCellY : 0) * 2;
+              const targetX = Math.max(0, Math.min(gameState.cols - 1, predictX));
+              const targetY = Math.max(0, Math.min(gameState.rows - 1, predictY));
+              const path = findPath(
+                [enemyCellX, enemyCellY],
+                [targetX, targetY],
+                mazeGridRef.current,
+                gameState.rows,
+                gameState.cols,
+              );
+              if (path && path.length > 1) {
+                newPath = path.slice(1);
+                newTargetIndex = 0;
+              }
+            } else if (enemy.ghostType === 'patrol' && dist < config.aggroRange) {
+              bfsCallsThisFrame++;
               const path = findPath(
                 [enemyCellX, enemyCellY],
                 [playerCellX, playerCellY],
@@ -705,93 +717,58 @@ const GameBoard = () => {
                 newTargetIndex = 0;
               }
             } else if (enemy.path.length === 0 || enemy.targetIndex >= enemy.path.length) {
-              // Random patrol
-              const directions = [
-                [0, 3],
-                [0, -3],
-                [3, 0],
-                [-3, 0],
-              ];
-              const move = directions[Math.floor(Math.random() * directions.length)];
-              const targetX = Math.max(0, Math.min(gameState.cols - 1, enemyCellX + move[0]));
-              const targetY = Math.max(0, Math.min(gameState.rows - 1, enemyCellY + move[1]));
-              const path = findPath(
-                [enemyCellX, enemyCellY],
-                [targetX, targetY],
-                mazeGridRef.current,
-                gameState.rows,
-                gameState.cols,
-              );
-              if (path && path.length > 1) {
-                newPath = path.slice(1);
+              // Simple random movement without BFS for random/patrol ghosts
+              const directions: [number, number][] = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+              const validMoves = directions.filter(([dx, dy]) => {
+                const nx = enemyCellX + dx;
+                const ny = enemyCellY + dy;
+                return (
+                  nx >= 0 && nx < gameState.cols &&
+                  ny >= 0 && ny < gameState.rows &&
+                  mazeGridRef.current[ny][nx] !== '#'
+                );
+              });
+              if (validMoves.length > 0) {
+                const move = validMoves[Math.floor(Math.random() * validMoves.length)];
+                newPath = [[enemyCellX + move[0], enemyCellY + move[1]]];
                 newTargetIndex = 0;
               }
             }
-          } else if (
-            enemy.ghostType === 'random' ||
-            enemy.path.length === 0 ||
-            enemy.targetIndex >= enemy.path.length
-          ) {
-            // Random movement
-            const directions = [
-              [0, 1],
-              [0, -1],
-              [1, 0],
-              [-1, 0],
-            ];
-            const validMoves = directions.filter(([dx, dy]) => {
-              const nx = enemyCellX + dx;
-              const ny = enemyCellY + dy;
-              return (
-                nx >= 0 &&
-                nx < gameState.cols &&
-                ny >= 0 &&
-                ny < gameState.rows &&
-                mazeGridRef.current[ny][nx] !== '#'
-              );
-            });
-            if (validMoves.length > 0) {
-              const move = validMoves[Math.floor(Math.random() * validMoves.length)];
-              newPath = [[enemyCellX + move[0], enemyCellY + move[1]]];
-              newTargetIndex = 0;
-            }
           }
+        }
 
-          return { ...enemy, path: newPath, targetIndex: newTargetIndex };
-        }),
-      );
-    }
-
-    // Move ghosts
-    setEnemies((prevEnemies) =>
-      prevEnemies.map((enemy) => {
-        if (enemy.frozen) return enemy;
-
-        if (enemy.path.length > 0 && enemy.targetIndex < enemy.path.length) {
-          const [targetCellX, targetCellY] = enemy.path[enemy.targetIndex];
+        // Move ghost
+        if (newPath.length > 0 && newTargetIndex < newPath.length) {
+          const [targetCellX, targetCellY] = newPath[newTargetIndex];
           const targetX = targetCellX * cellSize + cellSize / 2;
           const targetY = targetCellY * cellSize + cellSize / 2;
 
           const dx = targetX - enemy.x;
           const dy = targetY - enemy.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-
           const currentSpeed = enemy.speed * (cellSize / 40);
 
           if (distance < currentSpeed) {
-            return { ...enemy, x: targetX, y: targetY, targetIndex: enemy.targetIndex + 1 };
+            newX = targetX;
+            newY = targetY;
+            newTargetIndex++;
           } else {
-            return {
-              ...enemy,
-              x: enemy.x + (dx / distance) * currentSpeed,
-              y: enemy.y + (dy / distance) * currentSpeed,
-            };
+            newX = enemy.x + (dx / distance) * currentSpeed;
+            newY = enemy.y + (dy / distance) * currentSpeed;
           }
         }
-        return enemy;
-      }),
-    );
-  }, [playerState, gameState, cellSize, findPath]);
+
+        return {
+          ...enemy,
+          frozen: wasFrozen ? false : enemy.frozen,
+          path: newPath,
+          targetIndex: newTargetIndex,
+          x: newX,
+          y: newY,
+        };
+      });
+    });
+  }, [playerState, gameState, cellSize, findPath, level]);
 
   // Game loop
   useEffect(() => {
