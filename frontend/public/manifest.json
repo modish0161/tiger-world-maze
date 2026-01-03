@@ -7,20 +7,79 @@
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
-  "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "fullscreen", "standalone", "minimal-ui"],
   "background_color": "#1a0a0f",
   "theme_color": "#FFD700",
   "orientation": "any",
   "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "prefer_related_applications": false,
-  "related_applications": [],
+  
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.indigopascal.tigerworld",
+      "id": "com.indigopascal.tigerworld"
+    },
+    {
+      "platform": "windows",
+      "url": "https://apps.microsoft.com/store/detail/tiger-world"
+    }
+  ],
+  
+  "scope_extensions": [
+    { "origin": "https://tiger-world-api.onrender.com" }
+  ],
+  
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/json": [".maze", ".twm"]
+      },
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }],
+      "launch_type": "single-client"
+    }
+  ],
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+tigerworld",
+      "url": "/?action=%s"
+    }
+  ],
+  
+  "widgets": [
+    {
+      "name": "Tiger World Stats",
+      "description": "View your Tiger World game stats and high scores",
+      "tag": "tiger-stats",
+      "ms_ac_template": "widgets/stats.json",
+      "data": "/api/widget-stats",
+      "type": "application/json",
+      "screenshots": [{ "src": "/screenshot-wide.png", "sizes": "1280x720" }],
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  
+  "note_taking": {
+    "new_note_url": "/?action=new-note"
+  },
+  
+  "handle_links": "preferred",
+  "tab_strip": {
+    "home_tab": "auto",
+    "new_tab_button": "auto"
+  },
+  
   "launch_handler": {
     "client_mode": "focus-existing"
   },
+  
   "edge_side_panel": {
     "preferred_width": 400
   },
+  
   "share_target": {
     "action": "/",
     "method": "GET",
@@ -30,6 +89,7 @@
       "url": "url"
     }
   },
+  
   "shortcuts": [
     {
       "name": "Play Now",
@@ -39,6 +99,7 @@
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ],
+  
   "icons": [
     {
       "src": "/icon-192.png",
@@ -65,7 +126,9 @@
       "purpose": "maskable"
     }
   ],
+  
   "categories": ["games", "entertainment"],
+  
   "screenshots": [
     {
       "src": "/screenshot-wide.png",
