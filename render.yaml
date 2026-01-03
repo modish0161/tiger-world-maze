@@ -4,6 +4,7 @@ services:
   - type: web
     name: tiger-world-api
     env: python
+    region: frankfurt
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT "app:create_app()"
@@ -20,4 +21,5 @@ databases:
   - name: tiger-world-db
     databaseName: tigerworld
     user: tigerworld
+    region: frankfurt
     plan: free

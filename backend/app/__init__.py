@@ -13,10 +13,13 @@ def create_app():
     allowed_origins = [
         "http://localhost:5173",
         "http://localhost:4173",
-        "https://*.vercel.app",
+        "https://tiger-world-maze.vercel.app",
         os.environ.get('FRONTEND_URL', '')
     ]
-    CORS(app, origins=[o for o in allowed_origins if o])
+    # Use regex pattern for Vercel preview deployments
+    CORS(app, origins=[o for o in allowed_origins if o], 
+         resources={r"/api/*": {"origins": "*"}},
+         supports_credentials=True)
     
     # Database Config - Use PostgreSQL in production, SQLite locally
     basedir = os.path.abspath(os.path.dirname(__file__))
